@@ -1,0 +1,50 @@
+<div class="container">
+    <hr>
+    <h3>Billing Address</h3>
+    <form [formGroup]="address" (ngSubmit)="submitAddress()">
+        <div class="d-flex">
+            <div class="form-group mr-2">
+                <input class="form-control-input" formControlName="location" type="radio" name="location" id="location" (change)="onChange($event.target.value)" value="1">
+                <label class="form-control-label ml-2" for="inlineRadio1">APAC</label>
+            </div>
+            <div class="form-group">
+                <input class="form-control-input" type="radio" name="location" formControlName="location" id="location" (change)="onChange($event.target.value)"  value="2">
+                <label class="form-control-label ml-2" for="inlineRadio2">EMEA</label>
+            </div>
+            <div class="form-group">
+                <input class="form-control-input" type="radio" name="location" formControlName="location" id="location" (change)="onChange($event.target.value)"  value="3">
+                <label class="form-control-label ml-2" for="inlineRadio2">AMER</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <select name="country" id="country" formControlName="country" class="form-control">
+                <option selected>Select location</option>
+                <option *ngFor="let i of locations">{{ i }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input
+            formControlName="state"
+            class="form-control"
+            name="state"
+            id="state"
+            placeholder="State"
+            type="text">
+        </div>
+        <div class="form-group">
+            <input
+            formControlName="homeaddress"
+            class="form-control"
+            name="homeaddress"
+            id="homeaddress"
+            placeholder="Enter Address"
+            type="text">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success" [disabled]="!address.valid">Submit</button>
+            <div *ngIf="isSubmit" class="alert alert-success mt-2">
+                <h4>{{ msg }}</h4>
+            </div>
+        </div>
+    </form>
+</div>
