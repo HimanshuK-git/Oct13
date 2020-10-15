@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { from } from 'rxjs';
+import { DataService } from '../data.service';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'home',
@@ -12,8 +18,9 @@ export class HomeComponent implements OnInit {
   msg;
   isSubmitted = false;
   val;
+  courses=[];
 
-  constructor(fb: FormBuilder) { 
+  constructor(private data: DataService, fb: FormBuilder) { 
     this.form = fb.group({
       firstname: ['',[
         Validators.required,
@@ -23,11 +30,14 @@ export class HomeComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[a-zA-Z ]*$')
       ]],
-      course: ['',Validators.required]
+      courses: ['']
     })
   }
 
   ngOnInit() {
+    this.data.getJSON().subscribe(response =>{
+      (this.courses as any) = response
+    })
   }
 
   get firstname(){
@@ -42,7 +52,6 @@ export class HomeComponent implements OnInit {
     this.isSubmitted = true;
     this.msg = "Success";
     this.val = this.form.value;
-    console.log(this.val);
     this.form.reset();
   }
 }
